@@ -253,16 +253,13 @@ static CGFloat kTextViewToSuperviewHeightDelta;
 }
 
 - (void)startLoading {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self addSubview:[self loadIndicator]];
-
-    });
+    [[self button] setAlpha: 0.0f];
+    [[self loadIndicator] startAnimating];
 }
 
 - (void)stopLoading {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[self loadIndicator] removeFromSuperview];
-    });
+    [[self button] setAlpha: 1.0f];
+    [[self loadIndicator] stopAnimating];
 }
 
 #pragma mark - Internal Properties
@@ -335,7 +332,6 @@ static CGFloat kTextViewToSuperviewHeightDelta;
         
         _loadIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         _loadIndicator.hidesWhenStopped = true;
-        [_loadIndicator startAnimating];
     }
     
     return _loadIndicator;
@@ -649,6 +645,8 @@ static CGFloat kTextViewToSuperviewHeightDelta;
     [self addSubview:[self textContainer]];
     
     [self resizeButton];
+    
+    [self addSubview:[self loadIndicator]];
 }
 
 - (void)setupDelegateChainForTextView {
