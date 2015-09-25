@@ -20,7 +20,17 @@ class ViewController: UIViewController, PHFComposeBarViewDelegate, UITableViewDa
     var cachedHeights = [Int: CGFloat]()
     
     @IBAction func scrollDown(sender: AnyObject) {
-        self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: self.strings.count - 1, inSection: 0), atScrollPosition: .Bottom, animated: true)
+		let count = self.tableView.numberOfRowsInSection(0)
+		let currentContentOffset = self.tableView.contentOffset;
+		
+		for(var i = 0; i<count; i++){
+			self.tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: i, inSection: 0), atScrollPosition: .Top, animated: false)
+		}
+		
+		let endContentOffset = self.tableView.contentOffset
+		
+		self.tableView.setContentOffset(currentContentOffset, animated: false);
+		self.tableView.setContentOffset(endContentOffset, animated: true)
     }
     
     
@@ -106,4 +116,3 @@ class ViewController: UIViewController, PHFComposeBarViewDelegate, UITableViewDa
 
 
 }
-
